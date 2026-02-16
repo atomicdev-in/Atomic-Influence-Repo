@@ -1,0 +1,22 @@
+project_id = "gqbnkbcwmwwfecjesany"
+
+[functions.tracking-links]
+verify_jwt = false
+
+[functions.matching-intelligence]
+verify_jwt = false
+
+[functions.user-management]
+verify_jwt = false
+
+[functions.payments]
+verify_jwt = false
+
+[functions.notifications]
+verify_jwt = false
+
+[functions.campaign-lifecycle]
+verify_jwt = false
+
+[functions.social-connect]
+verify_jwt = false
