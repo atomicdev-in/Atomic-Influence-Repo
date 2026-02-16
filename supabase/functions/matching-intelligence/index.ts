@@ -32,7 +32,7 @@ Deno.serve(async (req: Request) => {
   try {
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-    const lovableApiKey = Deno.env.get("LOVABLE_API_KEY");
+    const openaiApiKey = Deno.env.get("OPENAI_API_KEY");
 
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
@@ -156,8 +156,8 @@ Deno.serve(async (req: Request) => {
 
       // Generate AI recommendations if API key available
       let recommendations: string[] = [];
-      
-      if (lovableApiKey) {
+
+      if (openaiApiKey) {
         try {
           const prompt = `Analyze this creator matching platform data and provide 3-4 brief recommendations for improving match quality:
 
@@ -168,14 +168,14 @@ Top Category Interests: ${categoryDistribution.slice(0, 5).map((c) => c.category
 
 Provide actionable recommendations in JSON array format like: ["recommendation 1", "recommendation 2"]`;
 
-          const aiResponse = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+          const aiResponse = await fetch("https://api.openai.com/v1/chat/completions", {
             method: "POST",
             headers: {
-              "Authorization": `Bearer ${lovableApiKey}`,
+              "Authorization": `Bearer ${openaiApiKey}`,
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-              model: "google/gemini-3-flash-preview",
+              model: "gpt-4o-mini",
               messages: [
                 { role: "system", content: "You are a matching algorithm analyst. Provide brief, actionable recommendations." },
                 { role: "user", content: prompt },
@@ -187,7 +187,7 @@ Provide actionable recommendations in JSON array format like: ["recommendation 1
           if (aiResponse.ok) {
             const aiData = await aiResponse.json();
             const content = aiData.choices?.[0]?.message?.content || "";
-            
+
             // Try to parse JSON from response
             const jsonMatch = content.match(/\[[\s\S]*\]/);
             if (jsonMatch) {

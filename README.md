@@ -1,73 +1,197 @@
-# Welcome to your Lovable project
+# Atomic Influence Platform
 
-## Project info
+A comprehensive influencer marketing platform connecting brands with content creators for authentic campaign collaborations.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+## Overview
 
-## How can I edit this code?
+Atomic Influence is a full-stack application that streamlines the process of matching brands with creators, managing campaigns, tracking performance, and processing payments. The platform features role-based access for admins, brands, and creators.
 
-There are several ways of editing your application.
+## Tech Stack
 
-**Use Lovable**
+### Frontend
+- **Framework**: React 18.3 with TypeScript 5.8
+- **Build Tool**: Vite 5.4
+- **UI Components**: shadcn/ui (Radix UI primitives)
+- **Styling**: Tailwind CSS 3.4
+- **State Management**: TanStack React Query v5
+- **Routing**: React Router v6
+- **Animations**: Framer Motion
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+### Backend
+- **Database**: PostgreSQL 14 (Supabase managed)
+- **Runtime**: Deno (Supabase Edge Functions)
+- **Authentication**: Supabase Auth (JWT-based)
+- **Storage**: Supabase Storage (S3-compatible)
+- **Real-time**: Supabase Realtime (WebSocket subscriptions)
 
-Changes made via Lovable will be committed automatically to this repo.
+### Integrations
+- **Payments**: Stripe API
+- **Email**: Resend API
+- **AI Matching**: OpenAI API
+- **Social OAuth**: Instagram, TikTok, YouTube
 
-**Use your preferred IDE**
+## Getting Started
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### Prerequisites
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+- Node.js 18+ and npm
+- Supabase account
+- Git
 
-Follow these steps:
+### Installation
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+1. Clone the repository:
+```bash
+git clone <repository-url>
+cd atomic-influence-platform
+```
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+2. Install dependencies:
+```bash
+npm install
+```
 
-# Step 3: Install the necessary dependencies.
-npm i
+3. Set up environment variables:
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+Create a `.env` file in the root directory:
+```env
+VITE_SUPABASE_URL=your_supabase_url
+VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+```
+
+4. Start the development server:
+```bash
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+The application will be available at `http://localhost:8080`
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## Available Scripts
 
-**Use GitHub Codespaces**
+- `npm run dev` - Start development server with hot reload
+- `npm run build` - Build for production
+- `npm run build:dev` - Build in development mode
+- `npm run preview` - Preview production build locally
+- `npm run test` - Run tests
+- `npm run test:watch` - Run tests in watch mode
+- `npm run lint` - Run ESLint
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## Project Structure
 
-## What technologies are used for this project?
+```
+atomic-influence-platform/
+├── src/
+│   ├── components/       # Reusable UI components
+│   ├── pages/           # Page components (Admin, Brand, Creator)
+│   ├── hooks/           # Custom React hooks
+│   ├── integrations/    # Supabase client & types
+│   ├── lib/             # Utility functions
+│   └── main.tsx         # Application entry point
+├── supabase/
+│   ├── functions/       # Edge Functions (serverless)
+│   └── migrations/      # Database migrations
+├── public/              # Static assets
+└── docs/               # Additional documentation
+```
 
-This project is built with:
+## Features
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+### For Admins
+- Dashboard with platform analytics
+- User management (approve/suspend accounts)
+- Campaign oversight and moderation
+- Matching algorithm configuration
+- System monitoring and reporting
 
-## How can I deploy this project?
+### For Brands
+- Create and manage campaigns
+- Browse creator marketplace
+- Review applications
+- Track campaign performance
+- Manage payments and invoicing
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+### For Creators
+- Complete onboarding and profile setup
+- Browse available campaigns
+- Submit applications
+- Track earnings and performance
+- Connect social media accounts
 
-## Can I connect a custom domain to my Lovable project?
+## Database
 
-Yes, you can!
+The platform uses PostgreSQL with 28 migrations covering:
+- User profiles and authentication
+- Campaign management
+- Application workflow
+- Payment processing
+- Social media integrations
+- Analytics and reporting
+- Automated scheduling (pg_cron)
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+## Backend Functions
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+Serverless functions handle critical operations:
+- `campaign-lifecycle` - Campaign state management
+- `matching-intelligence` - Creator-campaign matching
+- `notifications` - Email and in-app notifications
+- `payments` - Stripe payment processing
+- `social-connect` - OAuth integrations
+- `tracking-links` - Click tracking and analytics
+- `user-management` - User administration
+
+## Deployment
+
+### Build for Production
+
+```bash
+npm run build
+```
+
+The optimized production build will be generated in the `dist/` directory.
+
+### Environment Variables
+
+Required environment variables for production:
+
+```env
+# Supabase
+VITE_SUPABASE_URL=
+VITE_SUPABASE_ANON_KEY=
+
+# Optional: Third-party integrations
+VITE_STRIPE_PUBLISHABLE_KEY=
+VITE_AI_API_KEY=
+```
+
+Backend environment variables (configured in Supabase dashboard):
+```env
+SUPABASE_SERVICE_ROLE_KEY=
+STRIPE_SECRET_KEY=
+RESEND_API_KEY=
+OPENAI_API_KEY=
+```
+
+## Security
+
+- Row-Level Security (RLS) policies on all tables
+- JWT-based authentication
+- Role-based access control (RBAC)
+- Encrypted sensitive data
+- HTTPS-only in production
+- CORS configuration
+- Rate limiting on Edge Functions
+
+## Contributing
+
+1. Create a feature branch
+2. Make your changes
+3. Test thoroughly
+4. Submit a pull request
+
+## Support
+
+For technical issues or questions, please refer to the documentation in the `docs/` directory or contact the development team.
+
+## License
+
+Proprietary - All rights reserved
